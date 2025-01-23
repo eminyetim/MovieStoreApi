@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hV6gNKIcnAw=",
+  "dgSpecHash": "JZwhuAxkLxI=",
   "success": true,
-  "projectFilePath": "c:\\Users\\eminy\\OneDrive\\Masaüstü\\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\\Patika\\MovieStore\\MovieStoreApi\\MovieStoreApi.csproj",
+  "projectFilePath": "C:\\Users\\eminy\\OneDrive\\Masaüstü\\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\\Patika\\MovieStore\\MovieStoreApi\\MovieStoreApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\eminy\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\eminy\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",

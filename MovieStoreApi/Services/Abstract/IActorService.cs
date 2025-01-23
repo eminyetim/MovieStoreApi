@@ -1,13 +1,14 @@
+using MovieStoreApi.Dtos.ActorDtos;
 using MovieStoreApi.Entities;
 
 namespace MovieStoreApi.Services.Abstract
 {
     public interface IActorService
     {
-        Task<IEnumerable<Actor>> GetAllActorsAsync();
-        Task<Actor?> GetActorByIdAsync(int id);
-        Task<Actor> AddActorAsync(Actor director);
-        Task UpdateActorAsync(Actor director);
-        Task DeletePersonAsync(int id);
+        Task<IEnumerable<SelectActorDto>> GetAllActorsAsync();
+        Task<SelectActorDto?> GetActorByIdAsync(int id);
+        Task<CreateActorDto> AddActorAsync(CreateActorDto director);
+        Task<Actor> UpdateActorAsync(UpdateActorDto director);
+        Task<bool> DeleteActor(int id);
     }   
 }

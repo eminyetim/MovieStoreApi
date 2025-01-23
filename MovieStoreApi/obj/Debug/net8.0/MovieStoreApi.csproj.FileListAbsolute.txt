@@ -168,3 +168,4 @@ C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Pa
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.genruntimeconfig.cache
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\ref\MovieStoreApi.dll
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\MovieStoreApi\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\MovieStoreApi\obj\Debug\net8.0\MovieStoreApi.sourcelink.json
