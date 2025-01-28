@@ -9,6 +9,7 @@ namespace MovieStoreApi.Extensions
         {
             services.AddScoped<IPersonService,PersonService>();
             services.AddScoped<IActorService,ActorService>();
+            services.AddScoped<IDirectorService,DirectorService>();
         }
     }
 }

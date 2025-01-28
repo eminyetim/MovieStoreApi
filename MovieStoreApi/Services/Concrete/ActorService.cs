@@ -89,9 +89,7 @@ namespace MovieStoreApi.Services.Concrete
         {
             var actor = await _context.Actors.Include(a => a.Person).FirstOrDefaultAsync(a => a.Id == updateActorDto.Id);
             if (actor == null)
-            {
-                return null; // Eğer Actor bulunamazsa null döner
-            }
+                throw new Exception("Actor is could not be find!"); // Eğer Actor bulunamazsa null döner
 
             // 2. Güncelleme işlemi
             actor.Person.Name = updateActorDto.Name;
