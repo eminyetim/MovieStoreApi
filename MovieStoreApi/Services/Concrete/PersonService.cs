@@ -55,7 +55,7 @@ namespace MovieStoreApi.Services.Concrete
             var result = await _context.Persons.FirstOrDefaultAsync(pers => pers.Id == person.Id);
             if (result == null)
                 throw new Exception("Person is could not be find!");
-            _mapper.Map(person,result);
+            _mapper.Map(person,result); // persondan resulta değerleri aktar.
             _context.Persons.Update(result);
             _context.SaveChanges();
         }

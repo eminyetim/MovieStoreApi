@@ -5,8 +5,8 @@ using MovieStoreApi.Services.Abstract;
 
 namespace MovieStoreApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class PersonsController : ControllerBase
     {
         private readonly IPersonService _service;
