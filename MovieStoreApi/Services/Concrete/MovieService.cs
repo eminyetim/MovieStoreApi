@@ -1,6 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MovieStoreApi.Dtos.MovieActorsDtos;
 using MovieStoreApi.Dtos.MovieDtos;
 using MovieStoreApi.Entities;
 using MovieStoreApi.Repository.Context;
@@ -19,6 +22,8 @@ namespace MovieStoreApi.Services.Concrete
             _mapper = mapper;
         }
 
+
+
         public async Task<CreateMovieDto> AddMovieAsync(CreateMovieDto movie)
         {
             var resultMovie = _mapper.Map<Movie>(movie);
@@ -29,8 +34,8 @@ namespace MovieStoreApi.Services.Concrete
 
         public async Task<bool> DeleteMovieAsync(int id)
         {
-            var resultMovie = await _context.Movies.FirstOrDefaultAsync(a=> a.Id == id);
-            if(resultMovie == null)
+            var resultMovie = await _context.Movies.FirstOrDefaultAsync(a => a.Id == id);
+            if (resultMovie == null)
                 throw new Exception("Movie is could not find!");
             _context.Movies.Remove(resultMovie);
             await _context.SaveChangesAsync();
@@ -39,26 +44,26 @@ namespace MovieStoreApi.Services.Concrete
 
         public async Task<IEnumerable<SelectMovieDto>> GetAllMovieAsync()
         {
-           var resultMovie = await _context.Movies
-                                .Include(a => a.Director)
-                                    .ThenInclude(a=> a.person)
-                                .Include(a=>a.movieActors)
-                                    .ThenInclude(ma => ma.Actor)
-                                    .ThenInclude(ap => ap.Person)
-                                .ToListAsync();
-           return _mapper.Map<IEnumerable<SelectMovieDto>>(resultMovie);
+            var resultMovie = await _context.Movies
+                                 .Include(a => a.Director)
+                                     .ThenInclude(a => a.person)
+                                 .Include(a => a.movieActors)
+                                     .ThenInclude(ma => ma.Actor)
+                                     .ThenInclude(ap => ap.Person)
+                                 .ToListAsync();
+            return _mapper.Map<IEnumerable<SelectMovieDto>>(resultMovie);
         }
 
         public async Task<SelectMovieDto?> GetMovieByIdAsync(int id)
         {
             var resultMovie = await _context.Movies
-                                    .Include(a=>a.Director)
-                                        .ThenInclude(b=>b.person)
-                                    .Include(c=>c.movieActors)
-                                        .ThenInclude(d=>d.Actor)
-                                        .ThenInclude(e=>e.Person)
-                                    .FirstOrDefaultAsync(a=> a.Id == id);
-            if(resultMovie == null)
+                                    .Include(a => a.Director)
+                                        .ThenInclude(b => b.person)
+                                    .Include(c => c.movieActors)
+                                        .ThenInclude(d => d.Actor)
+                                        .ThenInclude(e => e.Person)
+                                    .FirstOrDefaultAsync(a => a.Id == id);
+            if (resultMovie == null)
                 throw new Exception("Movie is could not be find!");
 
             return _mapper.Map<SelectMovieDto>(resultMovie);
@@ -67,14 +72,46 @@ namespace MovieStoreApi.Services.Concrete
         public async Task<bool> UpdateMovieAsync(UpdateMovieDto movie)
         {
             var resultMovie = await _context.Movies.FirstOrDefaultAsync(mov => mov.Id == movie.Id);
-            if(resultMovie == null)
+            if (resultMovie == null)
                 throw new Exception("Movie is could not be find!");
 
             _mapper.Map(movie, resultMovie); // movie'den resultMovie'ye değerleri aktar
-            _context.Movies.Update(resultMovie); 
+            _context.Movies.Update(resultMovie);
             await _context.SaveChangesAsync();
             return true;
-            
+
         }
+
+        public async Task<bool> AddActorsToMovie( [FromBody] AddMovieActorsDto dto)
+        {
+            
+            var movie = await _context.Movies.Include(m => m.movieActors).FirstOrDefaultAsync(m => m.Id == dto.MovieId);
+
+            if (movie == null)
+                throw new Exception($"No Movie with ID {dto.MovieId} found");
+
+            foreach (var actorDto in dto.Actors)
+            {
+                var actorExists = await _context.Actors.AnyAsync(a => a.Id == actorDto.ActorId);
+                if (!actorExists)
+                    throw new Exception($"No Actor with ID {actorDto.ActorId} found");
+
+                bool alreadyAdded = movie.movieActors.Any(ma => ma.ActorId == actorDto.ActorId);
+                if (alreadyAdded)
+                    continue;
+
+                var movieActors = new MovieActor
+                {
+                    MovieId = dto.MovieId,
+                    ActorId = actorDto.ActorId,
+                    Role = actorDto.Role
+                };
+
+                movie.movieActors.Add(movieActors);
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }        
     }
 }

@@ -16,7 +16,7 @@ namespace MovieStoreApi.Mapping
                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Person.Name))
                  .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.Person.BirthDate))
                  .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Person.Phone))
-                 .ReverseMap();
+                 .ForMember(dest=> dest.MoviesName, opt => opt.MapFrom(src => src.MovieActors.Select(ma => ma.Movie.Name)));
            // CreateMap<SelectActorDto, Person>().ReverseMap();
 
         }

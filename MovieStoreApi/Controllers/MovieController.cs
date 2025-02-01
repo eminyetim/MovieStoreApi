@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MovieStoreApi.Dtos.MovieActorsDtos;
 using MovieStoreApi.Dtos.MovieDtos;
 using MovieStoreApi.Services.Abstract;
 
@@ -66,7 +67,17 @@ namespace MovieStoreApi.Controllers
             }
         }
 
-
-
+        [HttpPost("actors")]
+        public async Task<ActionResult<bool>> AddActorsToMovie([FromBody] AddMovieActorsDto dto)
+        {
+            try
+            {
+                return await _service.AddActorsToMovie(dto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
