@@ -1,13 +1,14 @@
+using MovieStoreApi.Dtos.CustomerDtos;
 using MovieStoreApi.Entities;
 
 namespace MovieStoreApi.Services.Abstract
 {
     public interface ICustomerService
     {
-        Task<IEnumerable<Customer>> GetAllCustomerrsAsync();
-        Task<Customer?> GetCustomerByIdAsync(int id);
-        Task<Customer> AddCustomerAsync(Customer customer);
-        Task UpdateCustomerAsync(Customer customer);
-        Task DeleteCustomerAsync(int id);
+        Task<IEnumerable<SelectCustomerDto>> GetAllCustomersAsync();
+        Task<SelectCustomerDto?> GetCustomerByIdAsync(int id);
+        Task<CreateCustomerDto> AddCustomerAsync(CreateCustomerDto customer);
+        Task<bool> UpdateCustomerAsync(UpdateCustomerDto customer);
+        Task<bool> DeleteCustomerAsync(int id);
     }
 }

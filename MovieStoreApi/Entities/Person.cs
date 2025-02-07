@@ -10,10 +10,10 @@ namespace MovieStoreApi.Entities
         public string Name { get; set; }
 
         public DateTime BirthDate { get; set; }
-        
+
         [MaxLength(50)]
         public string? Phone { get; set; }
- 
-        public DateTime CreateDate { get; } = DateTime.Now;
+
+        public DateTime CreateDate { get; private set; } = DateTime.Now;
     }
 }

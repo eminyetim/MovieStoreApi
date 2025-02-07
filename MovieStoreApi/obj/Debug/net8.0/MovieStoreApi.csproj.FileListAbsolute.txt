@@ -5,6 +5,7 @@ C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Pa
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\MovieStoreApi.runtimeconfig.json
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\MovieStoreApi.dll
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\MovieStoreApi.pdb
+C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\bin\Debug\net8.0\Humanizer.dll
@@ -153,6 +154,7 @@ C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Pa
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.csproj.CoreCompileInputs.cache
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.sourcelink.json
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\staticwebassets\msbuild.MovieStoreApi.Microsoft.AspNetCore.StaticWebAssets.props
@@ -167,5 +169,3 @@ C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Pa
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.pdb
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\MovieStoreApi.genruntimeconfig.cache
 C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\moviestoreapi\obj\Debug\net8.0\ref\MovieStoreApi.dll
-C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\MovieStoreApi\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\eminy\OneDrive\Masaüstü\BTK-Akademi-ASPNET-Core-MVC-Egitimi-master\Patika\MovieStore\MovieStoreApi\obj\Debug\net8.0\MovieStoreApi.sourcelink.json

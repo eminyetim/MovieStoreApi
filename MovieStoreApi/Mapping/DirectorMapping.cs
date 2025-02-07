@@ -9,7 +9,7 @@ namespace MovieStoreApi.Mapping
     {
         public DirectorMapping()
         {
-            CreateMap<Person,CreateDirectorDto>();
+            CreateMap<Person,CreateDirectorDto>(); // person ı CreateDirectorDto ya mapliyor.
             CreateMap<CreateDirectorDto,Director>();
 
             CreateMap<Director,SelectDirectorDto>() // Actor to 
