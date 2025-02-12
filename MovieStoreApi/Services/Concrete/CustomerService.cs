@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -39,9 +40,18 @@ namespace MovieStoreApi.Services.Concrete
             return _mapper.Map<CreateCustomerDto>(person);
         }
 
-        public Task<bool> DeleteCustomerAsync(int id)
+        public async Task<bool> DeleteCustomerAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Customers.Include(p => p.Person).FirstOrDefaultAsync(a => a.Id == id);
+            if (result == null)
+            {
+                return false;
+            }
+            _context.Persons.Remove(result.Person);
+            _context.Customers.Remove(result);
+            _context.SaveChanges();
+            return true;
+
         }
 
         public async Task<IEnumerable<SelectCustomerDto>> GetAllCustomersAsync()
@@ -54,14 +64,23 @@ namespace MovieStoreApi.Services.Concrete
         public async Task<SelectCustomerDto?> GetCustomerByIdAsync(int id)
         {
             var result = await _context.Customers.Include(a => a.Person).FirstOrDefaultAsync(src => src.Id == id);
-            if(result is null)
+            if (result is null)
                 throw new Exception("Customer is could not be find!");
             return _mapper.Map<SelectCustomerDto>(result);
         }
 
-        public Task<bool> UpdateCustomerAsync(UpdateCustomerDto customer)
+        public async Task<bool> UpdateCustomerAsync(UpdateCustomerDto customer)
         {
-            throw new NotImplementedException();
+            var result = await _context.Customers.Include(p => p.Person).FirstOrDefaultAsync(c => c.Id == customer.Id);
+            if (result == null)
+                return false;
+            
+            result.Person.Name = customer.Name;
+            result.Person.BirthDate = customer.BirthDate;
+            result.Person.Phone = customer.Phone;
+            _context.Customers.Update(result);
+            _context.SaveChanges();
+            return true;
         }
     }
 }

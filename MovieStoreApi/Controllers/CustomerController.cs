@@ -39,5 +39,18 @@ namespace MovieStoreApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<bool> DeleteCustomerById(int id)
+        {
+            return await _service.DeleteCustomerAsync(id);
+        }
+
+        [HttpPut]
+        public async Task<bool> UpdateCustomerByUpdateCustomerDto(UpdateCustomerDto customer)
+        {
+            return await _service.UpdateCustomerAsync(customer);
+        }
+
     }
 }
