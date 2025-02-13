@@ -12,6 +12,7 @@ namespace MovieStoreApi.Extensions
             services.AddScoped<IDirectorService,DirectorService>();
             services.AddScoped<IMovieService,MovieService>();
             services.AddScoped<ICustomerService,CustomerService>();
+            services.AddScoped<IGenreService,GenreService>();
         }
     }
 }

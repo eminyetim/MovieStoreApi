@@ -79,7 +79,7 @@ namespace MovieStoreApi.Services.Concrete
 
             findDirector.person.Name = director.Name;
             findDirector.person.Phone = director.Phone;
-            findDirector.person.BirthDate = director.BirthDate;
+            findDirector.person.BirthDate = director.BirthDate;     
 
             _context.Directors.Update(findDirector);
             await _context.SaveChangesAsync();

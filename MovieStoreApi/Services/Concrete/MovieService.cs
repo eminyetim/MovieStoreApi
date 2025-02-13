@@ -47,7 +47,7 @@ namespace MovieStoreApi.Services.Concrete
             var resultMovie = await _context.Movies
                                  .Include(a => a.Director)
                                      .ThenInclude(a => a.person)
-                                 .Include(a => a.movieActors)
+                                 .Include(a => a.movieActors)           
                                      .ThenInclude(ma => ma.Actor)
                                      .ThenInclude(ap => ap.Person)
                                  .ToListAsync();

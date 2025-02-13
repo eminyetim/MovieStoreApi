@@ -51,6 +51,5 @@ namespace MovieStoreApi.Controllers
         {
             return await _service.UpdateCustomerAsync(customer);
         }
-
     }
 }
