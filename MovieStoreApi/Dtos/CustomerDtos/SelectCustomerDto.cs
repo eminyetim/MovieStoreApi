@@ -1,3 +1,5 @@
+using Microsoft.Identity.Client;
+
 namespace MovieStoreApi.Dtos.CustomerDtos
 {
     public class SelectCustomerDto
@@ -10,8 +12,10 @@ namespace MovieStoreApi.Dtos.CustomerDtos
 
         public string? Phone { get; set; }
 
-        public DateTime CreateDate { get; set;}
+        public DateTime CreateDate { get; set; }
 
-        public List<string> FavoriteGenres {get;set;} = new List<string>();
+        public List<string> FavoriteGenres { get; set; } = new List<string>();
+
+        public List<string> PurchaseMovies { get; set; } = new List<string>();
     }
 }

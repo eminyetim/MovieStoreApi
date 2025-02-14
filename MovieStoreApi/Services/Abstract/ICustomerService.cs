@@ -11,7 +11,8 @@ namespace MovieStoreApi.Services.Abstract
         Task<CreateCustomerDto> AddCustomerAsync(CreateCustomerDto customer);
         Task<bool> UpdateCustomerAsync(UpdateCustomerDto customer);
         Task<bool> DeleteCustomerAsync(int id);
-        Task<bool> AddToGenreFavoriteForCustomer(int customerId , Guid genreId);    
-        Task<bool> RemoveFromGenreForCustomer(int customerId , Guid genreGuid);
+        Task<bool> AddToGenreFavoriteForCustomerAsync(int customerId, Guid genreId);
+        Task<bool> RemoveFromGenreForCustomerAsync(int customerId, Guid genreGuid);
+        Task<bool> PurchaseMovieAsync(int customerId, int MovieId);
     }
 }

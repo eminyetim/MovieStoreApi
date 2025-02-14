@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using MovieStoreApi.Dtos.CustomerDtos;
 using MovieStoreApi.Services.Abstract;
@@ -47,17 +48,17 @@ namespace MovieStoreApi.Controllers
         }
 
         [HttpPut]
-        public async Task<bool> UpdateCustomerByUpdateCustomerDto(UpdateCustomerDto customer)
+        public async Task<bool> UpdateCustomerByUpdateCustomerDtoAsync(UpdateCustomerDto customer)
         {
             return await _service.UpdateCustomerAsync(customer);
         }
 
         [HttpPost("{customerId}/add-favorite-genre/{genreId}")]
-        public async Task<ActionResult<bool>> AddFavoriteGenre(int customerId, Guid genreId)
+        public async Task<ActionResult<bool>> AddFavoriteGenreAsync(int customerId, Guid genreId)
         {
             try
             {
-                var result =  await _service.AddToGenreFavoriteForCustomer(customerId,genreId);
+                var result =  await _service.AddToGenreFavoriteForCustomerAsync(customerId,genreId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -67,11 +68,24 @@ namespace MovieStoreApi.Controllers
         }
 
         [HttpDelete("{customerId}/remove-favorite-genre/{genreId}")]
-        public async Task<ActionResult<bool>> RempveFavoriteGenreForCustomer(int customerId , Guid genreId)
+        public async Task<ActionResult<bool>> RemoveFavoriteGenreForCustomerAsync(int customerId , Guid genreId)
         {
             try
             {
-                return await _service.RemoveFromGenreForCustomer(customerId,genreId);
+                return await _service.RemoveFromGenreForCustomerAsync(customerId,genreId);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{customerId}/purchase/{movieId}")]
+        public async Task<ActionResult<bool>> PurchaseMovieAsync(int customerId , int movieId)
+        {
+            try
+            {
+                return await _service.PurchaseMovieAsync(customerId,movieId);
             }
             catch(Exception ex)
             {

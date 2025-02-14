@@ -2,6 +2,8 @@ using System.IO.Compression;
 using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.IdentityModel.Protocols;
 using MovieStoreApi.Dtos.CustomerDtos;
 using MovieStoreApi.Entities;
@@ -41,7 +43,7 @@ namespace MovieStoreApi.Services.Concrete
             return _mapper.Map<CreateCustomerDto>(person);
         }
 
-        public async Task<bool> AddToGenreFavoriteForCustomer(int customerId, Guid genreId)
+        public async Task<bool> AddToGenreFavoriteForCustomerAsync(int customerId, Guid genreId)
         {
             var customerExists = await _context.Customers.AnyAsync(c => c.Id == customerId);
 
@@ -88,8 +90,10 @@ namespace MovieStoreApi.Services.Concrete
             var result = await _context.Customers
                         .Include(a => a.Person)
                         .Include(c => c.FavoriteGenres)
-                            .ThenInclude(fg => fg.Genre).
-                        ToListAsync();
+                            .ThenInclude(fg => fg.Genre)
+                        .Include(cstm => cstm.Purchases)
+                            .ThenInclude(prchs => prchs.Movie)
+                        .ToListAsync();
             return _mapper.Map<IEnumerable<SelectCustomerDto>>(result);
         }
 
@@ -101,10 +105,36 @@ namespace MovieStoreApi.Services.Concrete
             return _mapper.Map<SelectCustomerDto>(result);
         }
 
-        public async Task<bool> RemoveFromGenreForCustomer(int customerId, Guid genreGuid)
+        public async Task<bool> PurchaseMovieAsync(int customerId, int MovieId)
         {
-            var result = await  _context.CustomerFavoriteGenres.FirstOrDefaultAsync(cfg => cfg.CustomerId == customerId && cfg.GenreId == genreGuid);
-            if(result == null)
+            var customerExists = await _context.Customers.AnyAsync(cst => cst.Id == customerId);
+            if (!customerExists)
+                throw new Exception("Customer Not Found!");
+
+            var movieExists = await _context.Movies.FindAsync(MovieId);
+            if (movieExists == null)
+                throw new Exception("Movie Not Found!");
+
+            var result = _context.Purchases.FirstOrDefault(purch => purch.CustomerId == customerId && purch.MovieId == MovieId);
+            if (result != null)
+                throw new Exception("Customer has already purchased this movie!");
+
+            var newPurchase = new Purchase
+            {
+                CustomerId = customerId,
+                MovieId = MovieId,
+                PurchaseDate = DateTime.UtcNow,
+                PurchasePrice = movieExists.Price
+            };
+            _context.Purchases.Add(newPurchase);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RemoveFromGenreForCustomerAsync(int customerId, Guid genreGuid)
+        {
+            var result = await _context.CustomerFavoriteGenres.FirstOrDefaultAsync(cfg => cfg.CustomerId == customerId && cfg.GenreId == genreGuid);
+            if (result == null)
                 throw new Exception("This genre is not the customer's favorites!");
             _context.CustomerFavoriteGenres.Remove(result);
             await _context.SaveChangesAsync();
