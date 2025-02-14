@@ -79,5 +79,31 @@ namespace MovieStoreApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("{movieId}/add-to-Genre/{genreId}")]
+        public async Task<ActionResult<bool>> AddGenreForMovie(int movieId, Guid genreId)
+        {
+            try
+            {
+                return await _service.AddToGenreForMovie(movieId, genreId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{movieId}/remove-genre/{genreId}")]
+        public async Task<ActionResult<bool>> RemoveMovieGenre(int movieId, Guid genreId)
+        {
+            try
+            {
+                return await _service.RemoveFromGenreForMovie(movieId, genreId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

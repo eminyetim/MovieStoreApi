@@ -47,9 +47,11 @@ namespace MovieStoreApi.Services.Concrete
             var resultMovie = await _context.Movies
                                  .Include(a => a.Director)
                                      .ThenInclude(a => a.person)
-                                 .Include(a => a.movieActors)           
+                                 .Include(a => a.movieActors)
                                      .ThenInclude(ma => ma.Actor)
                                      .ThenInclude(ap => ap.Person)
+                                 .Include(a => a.movieGenre)
+                                    .ThenInclude(b => b.Genre)
                                  .ToListAsync();
             return _mapper.Map<IEnumerable<SelectMovieDto>>(resultMovie);
         }
@@ -79,12 +81,10 @@ namespace MovieStoreApi.Services.Concrete
             _context.Movies.Update(resultMovie);
             await _context.SaveChangesAsync();
             return true;
-
         }
 
-        public async Task<bool> AddActorsToMovie( [FromBody] AddMovieActorsDto dto)
+        public async Task<bool> AddActorsToMovie([FromBody] AddMovieActorsDto dto)
         {
-            
             var movie = await _context.Movies.Include(m => m.movieActors).FirstOrDefaultAsync(m => m.Id == dto.MovieId);
 
             if (movie == null)
@@ -112,6 +112,41 @@ namespace MovieStoreApi.Services.Concrete
 
             await _context.SaveChangesAsync();
             return true;
-        }        
+        }
+
+        public async Task<bool> AddToGenreForMovie(int movieId, Guid genreId)
+        {
+            var movieExists = await _context.Movies.AnyAsync(mv => mv.Id == movieId);
+            if (!movieExists)
+                throw new Exception("Movie Not Found!");
+            var genreExists = await _context.Genres.AnyAsync(gnr => gnr.Id == genreId);
+            if (!genreExists)
+                throw new Exception("Genre Not Found!");
+
+            var MovieGenre = await _context.MovieGenres.FirstOrDefaultAsync(mgr => mgr.MovieId == movieId && mgr.GenreId == genreId);
+            if (MovieGenre != null)
+                throw new Exception("This Genre is already the Movie's genre");
+
+            var newMovieGenre = new MovieGenre
+            {
+                MovieId = movieId,
+                GenreId = genreId
+            };
+
+            await _context.MovieGenres.AddAsync(newMovieGenre);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RemoveFromGenreForMovie(int movieId, Guid genreGuid)
+        {
+            var MovieGenre = await _context.MovieGenres.FirstOrDefaultAsync(mgr => mgr.MovieId == movieId && mgr.GenreId == genreGuid);
+            if (MovieGenre == null)
+                throw new Exception("This Genre is not the movie's genre!");
+            _context.MovieGenres.Remove(MovieGenre);
+            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

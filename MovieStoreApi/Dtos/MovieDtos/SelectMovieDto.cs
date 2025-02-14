@@ -8,5 +8,6 @@ namespace MovieStoreApi.Dtos.MovieDtos
         public decimal Price { get; set; }
         public string DirectorName { get; set; }
         public List<string> Actor { get; set; } = new List<string>(); // Film adlarını tutar
+        public List<string> Genres{get;set;} = new List<string>();// Film tür isimlerini tutar.
     }
 }
