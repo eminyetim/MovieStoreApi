@@ -2,6 +2,7 @@ using System.IO.Compression;
 using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols;
 using MovieStoreApi.Dtos.CustomerDtos;
 using MovieStoreApi.Entities;
 using MovieStoreApi.Repository.Context;
@@ -40,6 +41,34 @@ namespace MovieStoreApi.Services.Concrete
             return _mapper.Map<CreateCustomerDto>(person);
         }
 
+        public async Task<bool> AddToGenreFavoriteForCustomer(int customerId, Guid genreId)
+        {
+            var customerExists = await _context.Customers.AnyAsync(c => c.Id == customerId);
+
+            if (!customerExists)
+                throw new Exception("Customer Not Found!");
+
+            var genreExists = await _context.Genres.AnyAsync(g => g.Id == genreId);
+
+            if (!genreExists)
+                throw new Exception("Genre Not Found!");
+
+            // Daha önceden favori eklenmi mi?
+            var result = await _context.CustomerFavoriteGenres.FirstOrDefaultAsync(cfg => cfg.CustomerId == customerId && cfg.GenreId == genreId);
+            if (result != null)
+                throw new Exception("Customer already has this genre as favorite!");
+
+            var newFavorite = new CustomerFavoriteGenre
+            {
+                CustomerId = customerId,
+                GenreId = genreId
+            };
+            _context.CustomerFavoriteGenres.Add(newFavorite);
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+
         public async Task<bool> DeleteCustomerAsync(int id)
         {
             var result = await _context.Customers.Include(p => p.Person).FirstOrDefaultAsync(a => a.Id == id);
@@ -57,7 +86,10 @@ namespace MovieStoreApi.Services.Concrete
         public async Task<IEnumerable<SelectCustomerDto>> GetAllCustomersAsync()
         {
             var result = await _context.Customers
-                        .Include(a => a.Person).ToListAsync();
+                        .Include(a => a.Person)
+                        .Include(c => c.FavoriteGenres)
+                            .ThenInclude(fg => fg.Genre).
+                        ToListAsync();
             return _mapper.Map<IEnumerable<SelectCustomerDto>>(result);
         }
 
@@ -69,12 +101,22 @@ namespace MovieStoreApi.Services.Concrete
             return _mapper.Map<SelectCustomerDto>(result);
         }
 
+        public async Task<bool> RemoveFromGenreForCustomer(int customerId, Guid genreGuid)
+        {
+            var result = await  _context.CustomerFavoriteGenres.FirstOrDefaultAsync(cfg => cfg.CustomerId == customerId && cfg.GenreId == genreGuid);
+            if(result == null)
+                throw new Exception("This genre is not the customer's favorites!");
+            _context.CustomerFavoriteGenres.Remove(result);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> UpdateCustomerAsync(UpdateCustomerDto customer)
         {
             var result = await _context.Customers.Include(p => p.Person).FirstOrDefaultAsync(c => c.Id == customer.Id);
             if (result == null)
                 return false;
-            
+
             result.Person.Name = customer.Name;
             result.Person.BirthDate = customer.BirthDate;
             result.Person.Phone = customer.Phone;

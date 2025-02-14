@@ -11,5 +11,7 @@ namespace MovieStoreApi.Dtos.CustomerDtos
         public string? Phone { get; set; }
 
         public DateTime CreateDate { get; set;}
+
+        public List<string> FavoriteGenres {get;set;} = new List<string>();
     }
 }

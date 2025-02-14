@@ -51,5 +51,32 @@ namespace MovieStoreApi.Controllers
         {
             return await _service.UpdateCustomerAsync(customer);
         }
+
+        [HttpPost("{customerId}/add-favorite-genre/{genreId}")]
+        public async Task<ActionResult<bool>> AddFavoriteGenre(int customerId, Guid genreId)
+        {
+            try
+            {
+                var result =  await _service.AddToGenreFavoriteForCustomer(customerId,genreId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{customerId}/remove-favorite-genre/{genreId}")]
+        public async Task<ActionResult<bool>> RempveFavoriteGenreForCustomer(int customerId , Guid genreId)
+        {
+            try
+            {
+                return await _service.RemoveFromGenreForCustomer(customerId,genreId);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

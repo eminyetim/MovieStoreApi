@@ -15,6 +15,7 @@ namespace MovieStoreApi.Mapping
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.Person.BirthDate))
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Person.Phone))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.Person.CreateDate))
+                .ForMember(dest => dest.FavoriteGenres, opt => opt.MapFrom(src => src.FavoriteGenres.Select(fg => fg.Genre.Name)))
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id)); // Customer Id değeri personel id değil.
         }
     }
