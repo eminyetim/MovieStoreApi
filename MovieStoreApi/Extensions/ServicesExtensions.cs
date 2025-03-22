@@ -13,6 +13,8 @@ namespace MovieStoreApi.Extensions
             services.AddScoped<IMovieService,MovieService>();
             services.AddScoped<ICustomerService,CustomerService>();
             services.AddScoped<IGenreService,GenreService>();
+            services.AddScoped<ILoginService,LoginService>();
+
         }
     }
 }

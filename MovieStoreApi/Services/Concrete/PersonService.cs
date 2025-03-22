@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieStoreApi.Dtos.PersonDto;
 using MovieStoreApi.Entities;
@@ -9,11 +10,12 @@ namespace MovieStoreApi.Services.Concrete
 {
     public class PersonService : IPersonService
     {
-        private readonly AppDbContext _context;
+        private readonly UserManager<Person> _context;
+        
         private readonly IMapper _mapper;
 
 
-        public PersonService(AppDbContext context, IMapper mapper)
+        public PersonService(UserManager<Person> context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -21,43 +23,60 @@ namespace MovieStoreApi.Services.Concrete
 
         public async Task<CreatePersonDto> AddPersonAsync(CreatePersonDto person)
         {
-            var result = _mapper.Map<Person>(person);
-            await _context.Persons.AddAsync(result);
-            await _context.SaveChangesAsync();
+            var user = new Person
+            {
+                UserName = person.Email,
+                Email = person.Email,
+                Name = person.Name,
+                BirthDate = person.BirthDate,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            var result = await _context.CreateAsync(user, person.Password);
+
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new Exception($"Kullanıcı oluşturulamadı: {errors}");
+            }
+
             return person;
         }
 
-        public async Task DeletePersonAsync(int id)
+        public async Task DeletePersonAsync(string id)
         {
-            var result = await _context.Persons.FirstOrDefaultAsync(pers => pers.Id == id);
+            var result = await _context.FindByIdAsync(id);
             if (result == null)
                 throw new Exception("Person is could not be find!");
-            _context.Persons.Remove(result);
-            _context.SaveChanges();
+           await _context.DeleteAsync(result);
+           
         }
+
+       
 
         public async Task<IEnumerable<SelectPersonDto?>> GetAllPersonsAsync()
         {
-            var result = await _context.Persons.ToListAsync();
+            var result = await _context.Users.ToListAsync();
             return _mapper.Map<IEnumerable<SelectPersonDto>>(result);
         }
 
-        public async Task<SelectPersonDto?> GetPersonByIdAsync(int id)
+        public async Task<SelectPersonDto?> GetPersonByEmailAsync(string email)
         {
-            var result = await _context.Persons.FirstOrDefaultAsync(pers => pers.Id == id);
+            var result = await _context.FindByEmailAsync(email);
             if (result == null)
                 throw new Exception("Person is could not be find!");
             return _mapper.Map<SelectPersonDto>(result);
         }
 
+      
         public async Task UpdatePersonAsync(UpdatePersonDto person)
         {
-            var result = await _context.Persons.FirstOrDefaultAsync(pers => pers.Id == person.Id);
+            var result = await _context.FindByEmailAsync(person.email);
             if (result == null)
                 throw new Exception("Person is could not be find!");
             _mapper.Map(person,result); // persondan resulta değerleri aktar.
-            _context.Persons.Update(result);
-            _context.SaveChanges();
+            await _context.UpdateAsync(result);
+           
         }
 
     }

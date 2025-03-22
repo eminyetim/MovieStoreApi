@@ -2,9 +2,9 @@ namespace MovieStoreApi.Dtos.PersonDto
 {
     public class UpdatePersonDto
     {
-        public int Id { get; set; }
+        public string email { get; set; }
 
-        public string Name { get; set; }
+        public string FullName { get; set; }
 
         public DateTime BirthDate { get; set; }
 

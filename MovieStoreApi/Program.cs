@@ -4,7 +4,9 @@ using MovieStoreApi.Extensions;
 using MovieStoreApi.Repository.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddServiceExtension();
+builder.Services.AddIdentityExtension();
 builder.Services.AddControllers();
 
 // Add services to the container.
@@ -23,6 +25,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.UseHttpsRedirection();
 

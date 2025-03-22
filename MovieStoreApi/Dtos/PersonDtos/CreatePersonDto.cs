@@ -1,11 +1,17 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MovieStoreApi.Dtos.PersonDto
 {
-    public class CreatePersonDto 
-    {      
-        public string Name { get; set; }
+    public record CreatePersonDto
+    {
 
-        public DateTime BirthDate { get; set; }
-    
-        public string? Phone { get; set; }
+        public string Name { get; init; }
+
+        public string Email { get; init; }
+
+        public string Password { get; init; }
+
+        public DateTime BirthDate { get; init; }
+
     }
 }

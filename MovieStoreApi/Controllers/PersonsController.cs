@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using MovieStoreApi.Dtos.PersonDto;
 using MovieStoreApi.Services.Abstract;
@@ -28,13 +29,13 @@ namespace MovieStoreApi.Controllers
             return await _service.AddPersonAsync(createPersonDto);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePersonAsync(int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeletePersonAsync(string email)
         {
             try
             {
-                await _service.DeletePersonAsync(id);
-                return Ok(new { Message = "Person successfully deleted.", PersonId = id });
+                await _service.DeletePersonAsync(email);
+                return Ok(new { Message = "Person successfully deleted.", PersonEmial = email});
             }
             catch (Exception ex)
             {
@@ -48,11 +49,11 @@ namespace MovieStoreApi.Controllers
         }
 
         [HttpGet("ById/{id}")]
-        public async Task<ActionResult<SelectPersonDto>> GetPersonByIdAsync(int id)
+        public async Task<ActionResult<SelectPersonDto>> GetPersonByIdAsync(string email)
         {
             try
             {
-                var result = await _service.GetPersonByIdAsync(id);
+                var result = await _service.GetPersonByEmailAsync(email);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -72,7 +73,7 @@ namespace MovieStoreApi.Controllers
             try
             {
                 await _service.UpdatePersonAsync(updatePersonDto);
-                return Ok(new { Message = "Person successfully Update.", PersonName = updatePersonDto.Name });
+                return Ok(new { Message = "Person successfully Update.", PersonName = updatePersonDto.FullName });
             }
             catch (Exception ex)
             {

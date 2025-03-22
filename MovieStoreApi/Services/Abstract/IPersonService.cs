@@ -6,9 +6,9 @@ namespace MovieStoreApi.Services.Abstract
     public interface IPersonService
     {
         Task<IEnumerable<SelectPersonDto?>> GetAllPersonsAsync();
-        Task<SelectPersonDto?> GetPersonByIdAsync(int id);
+        Task<SelectPersonDto?> GetPersonByEmailAsync(string email);
         Task<CreatePersonDto> AddPersonAsync(CreatePersonDto person);
         Task UpdatePersonAsync(UpdatePersonDto person);
-        Task DeletePersonAsync(int id);
+        Task DeletePersonAsync(string email);
     }
 }
